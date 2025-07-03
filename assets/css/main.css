@@ -4109,3 +4109,15 @@ input, select, textarea {
 					}
 
 	}
+
+	.responsive-logo {
+		max-width: 100%;
+		height: auto;
+		margin: 0 auto;
+	  }
+	  
+	  @media screen and (max-width: 768px) {
+		.responsive-logo {
+		  width: 100%; /* o lo que se vea mejor */
+		}
+	  }

@@ -242,4 +242,57 @@
 		$banner
 			._parallax();
 
+
+		const form = document.querySelector("form");
+		const mensaje = document.createElement("div");
+		mensaje.id = "respuesta-form";
+		document.body.appendChild(mensaje);
+		
+		form.addEventListener("submit", async function (e) {
+			e.preventDefault();
+		
+			const datos = new FormData(form);
+			const object = Object.fromEntries(datos);
+			const json = JSON.stringify(object);
+		
+			const response = await fetch(form.action, {
+			method: "POST",
+			body: new URLSearchParams(object),
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded",
+			}
+			});
+		
+			const resultado = await response.json();
+		
+			// Mostrar el mensaje estilizado
+			mensaje.innerHTML = `
+			<div style="
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background-color: #0f0f0f;
+				color: #ff6a00;
+				padding: 3rem;
+				border-radius: 12px;
+				border: 2px solid #ff6a00;
+				box-shadow: 0 0 30px rgba(255, 106, 0, 0.4);
+				font-family: 'Inter', sans-serif;
+				font-size: 1.25rem;
+				text-align: center;
+				z-index: 1000;
+				max-width: 90%;
+				width: 400px;
+			">
+				✅ ${resultado.message}
+			</div>
+			`;
+		
+			// Eliminar el mensaje después de 4 segundos
+			setTimeout(() => mensaje.innerHTML = "", 4000);
+		
+			form.reset();
+		});
+		  
 })(jQuery);
